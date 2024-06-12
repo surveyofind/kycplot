@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+  
+{% block css %} 
+    <style>
+     
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 270px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .image-container img {
+            max-width: 276px; /* Increase this value to make images larger */
+            height: auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+   {% endblock css %}  
+   
+  
+{% block body %}
+    <div class="container">
+        <h1> Know your CORS</h1>
+        {% comment %} <a href="{% url 'generate_pdf' %}" class="btn btn-primary">Export</a> {% endcomment %}
+
+        <form action="{% url 'plot_data' %}" method="post">
+            {% csrf_token %}
+            <div class="dropdowns">
+                <label for="state">Select State:</label>
+                <div class="custom-dropdown">
+                    <select id="state" name="state" >
+                        <option value="">Choose...</option>
+                        {% for state in states %}
+                            <option value="{{ state.id }}">{{ state.name }}</option>
+                        {% endfor %}
+                    </select><br><br>
+                </div>
+                <label for="district">Select site_name:</label>
+                <div class="custom-dropdown">
+                    <select id="district" name="site_name">
+                        <option value="">Choose...</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" id="submitBtn">Submit</button>
+        </form>
+    </div>
+
+    {% for plot_data in data %}
+    
+    <div class="container">
+        <a href="{% url 'generate_pdf' %}"  class="btn btn-primary" id="submitBtn">Export</a>
+        <div class="image-container">
+            <img src="{{ plot_data.image_Cycle_Slip_PLOT.url }}" alt="Cycle Slip Plot">
+            <img src="{{ plot_data.image_MP_PLOT.url }}" alt="MP Plot">
+            <img src="{{ plot_data.image_Percentage_Observation.url }}" alt="Percentage Observation">
+            <img src="{{ plot_data.image_TS_PLOT.url }}" alt="TS Plot">
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock  %}
+
+{% block js %}  
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#state").change(function() {
+                var stateId = $(this).val();
+                if (stateId) {
+                    $.ajax({
+                        url: "{% url 'load_districts' %}",
+                        data: {
+                            'state_id': stateId
+                        },
+                        success: function(data) {
+                            $("#district").html('<option value="">Choose...</option>');
+                            $.each(data, function(key, value) {
+                                $("#district").append('<option value="' + value.site_name + '">' + value.site_name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $("#district").html('<option value="">Choose...</option>');
+                }
+            });
+        });
+    </script>
+{% endblock js %}

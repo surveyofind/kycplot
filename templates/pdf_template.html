@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ site_name }} Images</title>
+</head>
+<body>
+    <h1>{{ site_name }} Images</h1>
+    {% for image in images %}
+       
+        <img src="{{ image.image_Cycle_Slip_PLOT.url }}" alt="image Cycle Slip PLOT" width="800" height="700">
+        <img src="{{ image.image_MP_PLOT.url }}" alt="image MP PLOT" width="800" height="700"><br>
+        <img src="{{ image.image_Percentage_Observation.url }}" alt="image Percentage Observation" width="800" height="700">
+        <img src="{{ image.image_TS_PLOT.url }}" alt="image TS PLOT" width="800" height="700"><br>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!-- {% for plot_data in plot_data_list %}
+    {% comment %} <h2>{{ plot_data.state }}</h2> {% endcomment %}
+    <h2>{{ plot_data.site_code }}</h2>
+    <p>Coordinates: {{ plot_data.coordinates }}</p>
+    <img src="{{ plot_data.image_Cycle_Slip_PLOT.url }}" alt="image_Cycle_Slip_PLOT">
+    <img src="{{ plot_data.image_MP_PLOT.url }}" alt="image_MP_PLOT">
+    <img src="{{ plot_data.image_Percentage_Observation.url }}" alt="image_Percentage_Observation">
+    <img src="{{ plot_data.image_TS_PLOT.url }}" alt="image_TS_PLOT">
+{% endfor %} -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Images</title>
+</head>
+<body>
+    <h1>Data from qc_Plots Folder</h1>
+    {% for plot_data in plot_data_qc_plots %}
+        <h2>{{ plot_data.site_code }}</h2>
+        <p>Coordinates: {{ plot_data.coordinates }}</p>
+        <div class="image-container">
+            {% for image in plot_data.images %}
+            <img src="{{ plot_data.image_Cycle_Slip_PLOT.url }}" alt="image_Cycle_Slip_PLOT">
+            <img src="{{ plot_data.image_MP_PLOT.url }}" alt="image_MP_PLOT">
+            <img src="{{ plot_data.image_Percentage_Observation.url }}" alt="image_Percentage_Observation">
+            <img src="{{ plot_data.image_TS_PLOT.url }}" alt="image_TS_PLOT">
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    {% comment %} <h1>Data from qc_Plots_UP Folder</h1>
+    {% for plot_data in plot_data_qc_plots_up %}
+        <h2>{{ plot_data.site_code }}</h2>
+        <p>Coordinates: {{ plot_data.coordinates }}</p>
+        <div class="image-container">
+            {% for image in plot_data.images %}
+            <img src="{{ plot_data.image_Cycle_Slip_PLOT.url }}" alt="image_Cycle_Slip_PLOT">
+            <img src="{{ plot_data.image_MP_PLOT.url }}" alt="image_MP_PLOT">
+            <img src="{{ plot_data.image_Percentage_Observation.url }}" alt="image_Percentage_Observation">
+            <img src="{{ plot_data.image_TS_PLOT.url }}" alt="image_TS_PLOT">
+            {% endfor %}
+        </div>
+    {% endfor %} {% endcomment %}
+</body>
+</html>
